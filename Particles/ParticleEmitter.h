@@ -32,9 +32,29 @@ class ParticleEmitter
 	float spdLo, spdHi; // speed = velocity
 	vec2  dimLoStart, dimHiStart; // range of acceptable starting dimensions
 	vec2  dimLoEnd, dimHiEnd;     // range of acceptacble ending dimensions
-	color colLoStart, coHiStart; 
-	color colLoEnd, coHiEnd;
+	color colLoStart, colHiStart; 
+	color colLoEnd, colHiEnd;
 	float lifespanLo, lifespanHi;
+
+	particle _generate()
+	{
+		particle part;
+		part.pos = pos;
+		part.sprite = sprite;
+
+		part.vel = randDir(angLo, andHi) * lerp(spdLo, spdHi, rand01());
+
+		part.lifespan = lerp(lifespanLo, lifespanHi, rand01());
+
+		part.sColor = lerp(colLoStart, colHiStart, rand01());
+		part.eColor = lerp(colLoEnd, colHiEnd, rand01());
+
+		part.sDim = lerp(dimLoStart, dimHiStart, rand01());
+		part.eDim = lerp(dimLoStart, dimHiStart, rand01());
+
+		part.lifetime = 0;
+		return part;
+	}
 
 	void update(float dt)
 	{
