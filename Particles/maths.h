@@ -15,7 +15,7 @@ inline vec2 lerp(const vec2 &S, const vec2 &E, float t)
 union color 
 {
 	unsigned ui_color;
-	struct { char r, g, b, a; };
+		struct { unsigned char r, g, b, a; };
 };
 
 // 0xRR GG BB AA
