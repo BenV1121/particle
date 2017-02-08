@@ -27,8 +27,6 @@ struct particle
 
 		pos = pos + vel * dt;
 
-		drawTexture(sprite, pos.x, pos.y, dim.x, dim.y, 0, true, 0, color.ui_color);
-
 		return alpha < 1;
 	}
 

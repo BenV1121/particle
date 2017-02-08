@@ -8,15 +8,28 @@
 using namespace sfw;
 using namespace std;
 
+void doSomething(particle *)
+{
+
+}
+
 void main()
 {
-	ObjectPool pool(20);
-
-	auto it = pool.push();
-
-	it->pos = vec2{ 12, 12 };
+	ObjectPool<int> joy(23);
 
 	initContext();
+
+	ObjectPool<int> pool(20);
+
+	for (int i = 0; i < 10; ++i)
+	{
+		pool.push();
+	}
+
+	for each(auto part in pool)
+	{
+		part.isActive();
+	}
 
 	unsigned sprite =
 	loadTextureMap("../res/particle_sprite.png");

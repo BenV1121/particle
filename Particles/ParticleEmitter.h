@@ -1,26 +1,30 @@
 #pragma once
 
 #include "particles.h"
-#include "maths.h"
+#include "ObjectPool.h"
 
-#define PART_SIZE 1000
+#define PART_SIZE 10000
 
 // Factory
 class ParticleEmitter
 {
 	// Data Structure to store all of our particles
-	particle particles[PART_SIZE];
+	//particle particles[PART_SIZE];
+	ObjectPool<particle> particles;
 
+	// Object Pooling Method
 	void emit()
 	{
-		for(int i = 0; i < PART_SIZE; ++i) // linear time every time we add a particle
-			if (!particles[i].isActive())
-			{
-				particles[i] = _generate();
-				return;
-			}
+		//for(int i = 0; i < PART_SIZE; ++i) // linear time every time we add a particle
+		//	if (!particles[i].isActive())
+		//	{
+		//		particles[i] = _generate();
+		//		return;
+		//	}
+		particles.push(_generate());
 	}
 
+	// Factory Method
 	particle _generate()
 	{
 		particle part;
@@ -46,8 +50,8 @@ class ParticleEmitter
 public:
 	// emissions
 	float emitRateLo, emitRateHi;
-	
-	ParticleEmitter() : emissionTimer(0) { }
+
+	ParticleEmitter() : emissionTimer(0), particles(PART_SIZE) { }
 
 	// defaults
 	vec2 pos;
@@ -55,23 +59,31 @@ public:
 	float angLo, angHi; // direction *
 	float spdLo, spdHi; // speed = velocity
 	vec2  dimLoStart, dimHiStart; // range of acceptable starting dimensions
-	vec2  dimLoEnd  , dimHiEnd;	  // range of acceptable ending dimensions
+	vec2  dimLoEnd, dimHiEnd;	  // range of acceptable ending dimensions
 	color colLoStart, colHiStart; // ....
-	color colLoEnd  , colHiEnd;
+	color colLoEnd, colHiEnd;
 	float lifespanLo, lifespanHi;
 
 
 	void update(float dt)
 	{
-		for (int i = 0; i < PART_SIZE; ++i)
-			if(particles[i].isActive())
-				particles[i].refresh(dt);
+		//for (int i = 0; i < PART_SIZE; ++i)
+		//	if(particles[i].isActive())
+		//		particles[i].refresh(dt);
+
+		for (auto it = particles.begin(); it != particles.end(); )
+		{
+			it->refresh(dt);
+
+			if (it->isActive()) ++it;
+			else				it.free(); // similar to ++
+		}
 
 		emissionTimer -= dt;
 		while (emissionTimer < 0)
 		{
 			emit();
 			emissionTimer += lerp(emitRateLo, emitRateHi, rand01());
-		}			
+		}
 	}
 };
