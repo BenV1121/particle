@@ -14,6 +14,8 @@ struct particle
 
 	float lifetime, lifespan;
 
+	particle() : lifespan(-1), lifetime(0) {}
+
 	bool refresh(float dt)
 	{
 		lifetime += dt;
@@ -30,5 +32,5 @@ struct particle
 		return alpha < 1;
 	}
 
-	bool isActive() const { lifetime < lifespan; }
+	bool isActive() const { return lifetime < lifespan; }
 };

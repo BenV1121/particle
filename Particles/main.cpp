@@ -2,58 +2,57 @@
 #include "maths.h"
 #include <iostream>
 #include "particles.h"
+#include "ParticleEmitter.h"
+#include "ObjectPool.h"
 
 using namespace sfw;
 using namespace std;
 
 void main()
 {
+	ObjectPool pool(20);
+
+	auto it = pool.push();
+
+	it->pos = vec2{ 12, 12 };
+
 	initContext();
 
 	unsigned sprite =
 	loadTextureMap("../res/particle_sprite.png");
 
-	particle part;
+	ParticleEmitter pe;
 
-	part.sprite = sprite;
-	part.pos    = vec2{400,300};
-	part.vel    = randDir(0 ,360) * lerp(20, 80, rand01());
-	part.sDim   = randRange(vec2{ 8 , 8 },   vec2{ 64, 64 });
-	part.eDim   = lerp (vec2{ 256,256 }, vec2{ 512, 512 }, rand01());
+	pe.emitRateLo = 0.01f;
+	pe.emitRateHi = 0.03f;
 
-	part.sColor.ui_color = RED;
-	part.sColor.ui_color = RED;
-	part.lifespan = 4.5f;
-	part.lifetime = 0;
+	pe.sprite = sprite;
 
-	//color startColor, endColor;
+	pe.pos = vec2{ 400,-200 };
+	pe.angLo = 45;
+	pe.angHi = 135;
+	pe.spdLo = 120;
+	pe.spdHi = 320;
+	pe.dimLoStart = vec2{ 8, 8 };
+	pe.dimHiStart = vec2{ 32, 32 };
+	pe.dimLoEnd   = vec2{ 256,256 };
+	pe.dimHiEnd   = vec2{ 512, 512 };
 
-	//startColor.ui_color = RED;
-	//endColor.ui_color = GREEN;
-	//float timer = 0;
+	pe.colLoStart.ui_color = RED;
+	pe.colHiStart.ui_color = RED;
+	pe.colLoEnd.ui_color   = YELLOW;
+	pe.colHiEnd.ui_color   = WHITE;
+
+	pe.lifespanLo = 3.5f;
+	pe.lifespanHi = 5.7f;
+
 
 	while (stepContext())
 	{
 
 		float dt = getDeltaTime();
 
-		if (!part.refresh(dt))
-		{
-			part.pos = vec2{ 400,300 };
-			part.vel = randDir(0, 360) * lerp(20, 80, rand01());
-			part.sDim = randRange(vec2{ 8 , 8 }, vec2{ 32, 32 });
-			part.eDim = lerp(vec2{ 256,256 }, vec2{ 512, 512 }, rand01());
-			part.lifetime = 0;
-		}
-		//timer += getDeltaTime();
-
-		//color currentColor = lerp(startColor, endColor, timer/10.f);
-
-		////cout << currentColor.r << " " << currentColor.g << " " << ;
-
-		//drawTexture(sprite, 400, 300, 100, 100, 0, true, 0, currentColor.ui_color);
-
-
+		pe.update(dt);
 	}
 
 	termContext();
