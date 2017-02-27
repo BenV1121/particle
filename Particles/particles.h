@@ -2,8 +2,7 @@
 
 #include "sfwdraw.h"
 #include "maths.h"
-
-using namespace sfw;
+#include "ObjectPool.h"
 
 struct particle
 {
@@ -22,12 +21,19 @@ struct particle
 
 		float alpha = lifetime / lifespan;
 
-		vec2  dim	= lerp(sDim,   eDim,   alpha);
+		vec2  dim = lerp(sDim, eDim, alpha);
 		color color = lerp(sColor, eColor, alpha);
 
 		pos = pos + vel * dt;
 
+		sfw::drawTexture(sprite, pos.x, pos.y, dim.x, dim.y, 0, true, 0, color.ui_color);
+
 		return alpha < 1;
+	}
+
+	void update(lifetime, transform, sprite)
+	{
+
 	}
 
 	bool isActive() const { return lifetime < lifespan; }

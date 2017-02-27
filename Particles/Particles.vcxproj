@@ -120,11 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="maths.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="particles.h" />
-    <ClInclude Include="transform.h" />
+    <ClInclude Include="components.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
