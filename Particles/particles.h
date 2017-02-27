@@ -3,6 +3,7 @@
 #include "sfwdraw.h"
 #include "maths.h"
 #include "ObjectPool.h"
+#include "components.h"
 
 struct particle
 {
@@ -29,11 +30,6 @@ struct particle
 		sfw::drawTexture(sprite, pos.x, pos.y, dim.x, dim.y, 0, true, 0, color.ui_color);
 
 		return alpha < 1;
-	}
-
-	void update(lifetime, transform, sprite)
-	{
-
 	}
 
 	bool isActive() const { return lifetime < lifespan; }

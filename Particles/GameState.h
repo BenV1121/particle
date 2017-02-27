@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Factory.h"
+#include "ParticleEmitter.h"
 
 
 class GameState
@@ -12,7 +13,7 @@ public:
 
 	void init()
 	{
-		puff_sprite = sfw::loadTextureMap("../res/particle_sprite.png");
+		puff_sprite = sfw::loadTextureMap("../res/Speed_Lines.png");
 	}
 
 	void play()
@@ -58,11 +59,11 @@ public:
 				e->ctrl->poll(*e->tran, *e->rdby);
 			}
 
-			// particle system
-			if (e->part && e->life && e->tran && e->sprt)
-			{
-				e->part->update(*e->life, *e->tran, *e->sprt);
-			}
+			//// particle system
+			//if (e->part && e->life && e->tran && e->sprt)
+			//{
+			//	e->part->update(*e->life, *e->tran, *e->sprt);
+			//}
 
 			++e;
 		}
